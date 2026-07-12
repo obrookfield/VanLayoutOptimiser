@@ -4,8 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>3ec7eef4-60a7-4a72-b14c-85a5fc7c34c1</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,22 +21,18 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="tests\" />
-    <Folder Include="src\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="main.py" />
-    <Compile Include="src\geometry.py" />
-    <Compile Include="src\solver.py" />
-    <Compile Include="src\visualiser.py" />
-    <Compile Include="src\__init__.py" />
-    <Compile Include="tests\test_solver.py" />
-    <Compile Include="tests\__init__.py" />
+    <Compile Include="van_layout\geometry.py" />
+    <Compile Include="van_layout\visualiser.py" />
+    <Compile Include="van_layout\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="README.md" />
     <Content Include="requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="van_layout\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
