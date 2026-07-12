@@ -10,3 +10,7 @@ This tool is designed to help anyone interested in van conversions to visualise 
 * **Custom Vehicle Dimensions:** Users can input their van's specific dimensions.
 * **Item Placement:** Users can define the items they want to include in their van conversion, specifying dimensions and quantities.
 * **Visual Output:** The tool generates a visual representation of the optimal layout, making it easier to understand how items fit within the available space.
+
+## Versions
+* **v0.1:** Initial release with manual placement of items and basic layout visualisation.
+* **v0.2:** Introduced a simple algorithm, placing items by area into the first free spot.
