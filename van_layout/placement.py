@@ -21,3 +21,5 @@ def fits_at(item: Item, x: float, y: float, van: Van, placed_items: list[Item]) 
             return False
     return True
 
+
+
