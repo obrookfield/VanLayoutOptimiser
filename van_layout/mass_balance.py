@@ -33,3 +33,18 @@ def centre_of_mass(items: list[Item]) -> tuple[float, float]:
     ) / total_mass
 
     return x_centre, y_centre
+
+
+def balance_offset(items: list[Item], van: Van) -> tuple[float, float]:
+    # Calculate the offset of the centre of mass from the geometric centre of the van.
+    
+    x_com, y_com = centre_of_mass(items)
+
+    van_x_centre = van.length / 2
+    van_y_centre = van.width / 2
+
+    # Normalised offsets from the centre, where 0 is perfectly balanced, and 1 is at the edge of the van.
+    x_offset = (x_com - van_x_centre) / van_x_centre 
+    y_offset = (y_com - van_y_centre) / van_y_centre
+
+    return x_offset, y_offset
