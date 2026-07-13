@@ -43,8 +43,18 @@ def balance_offset(items: list[Item], van: Van) -> tuple[float, float]:
     van_x_centre = van.length / 2
     van_y_centre = van.width / 2
 
-    # Normalised offsets from the centre, where 0 is perfectly balanced, and 1 is at the edge of the van.
+    # Normalised offsets from the centre, where 0 is perfectly centred, and 1 is at the edge of the van.
     x_offset = (x_com - van_x_centre) / van_x_centre 
     y_offset = (y_com - van_y_centre) / van_y_centre
 
     return x_offset, y_offset
+
+
+def balance_score(items: list[Item], van:Van) -> float:
+    # Calculate a balance score, where 0 is perfectly balanced, and 1 is maximally unbalanced.
+    # Combines the x and y offsets with a root-mean-square approach, so that a layout that is unbalanced in both axes is penalised more than being offcentre in just one.
+
+    x_offset, y_offset = balance_offset(items, van)
+    score = ((x_offset**2 + y_offset**2) / 2)**0.5
+
+    return score
