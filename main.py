@@ -25,7 +25,7 @@ items = [
     #Item(name="Twin Bed", length=1910, width=970, mass=36), # More accurate bed size, standard twin.
     Item(name="Kitchen Unit", length=500, width=500, mass=35),
     Item(name="Wardrobe", length=500, width=500, mass=20),
-    Item(name="Fire Extinguisher", length=114, width=114) # Mass excluded
+    Item(name="Fire Extinguisher", length=114, width=114, mass=2) # 2kg 3L 250 bar fire extinguisher.
     ]
 
 if __name__ == "__main__":
