@@ -14,6 +14,7 @@ from van_layout import Item, Van
 from van_layout.geometry import validate_layout
 from van_layout.placement import place_items
 from van_layout.visualiser import plot_layout
+from van_layout.mass_balance import balance_offset, balance_score
 
 # Dimensions - VW Transporter SWB (2014-)
 van = Van(length=2572, width=1700)
@@ -21,7 +22,7 @@ van = Van(length=2572, width=1700)
 # Item defined by: (name, length, width)
 items = [
     Item(name="Bed", length=2000, width=1100, mass=40),
-    Item(name="Twin Bed", length=1910, width=970, mass=36), # More accurate bed size, standard twin.
+    #Item(name="Twin Bed", length=1910, width=970, mass=36), # More accurate bed size, standard twin.
     Item(name="Kitchen Unit", length=500, width=500, mass=35),
     Item(name="Wardrobe", length=500, width=500, mass=20),
     Item(name="Fire Extinguisher", length=114, width=114) # Mass excluded
@@ -43,5 +44,9 @@ if __name__ == "__main__":
             print(f"  - {p}")
     else:
         print("Layout is valid.")
+
+        x_offset, y_offset = balance_offset(placed, van)
+        print(f"Mass balance offset: front/back={x_offset:+.2f}, side/side={y_offset:+.2f}")
+        print(f"Mass balance score: {balance_score(placed, van):.2f} (1.0 = perfectly balanced)")
 
     plot_layout(items, van, title="v0.2: Naive algorithm layout")

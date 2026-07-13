@@ -10,7 +10,7 @@ class Item:
     name: str
     width: float
     length: float
-    mass: float | None = None
+    mass: float = 0.0
     x: float | None = None
     y: float | None = None
 
