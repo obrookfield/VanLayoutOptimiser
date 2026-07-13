@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from .geometry import Item, Van
+from .mass_balance import balance_offset
 
 def plot_layout(items: list[Item], van: Van, title: str = "Van Layout"):
     # Draw the outline of the van and every placed item with labels.
@@ -19,6 +20,13 @@ def plot_layout(items: list[Item], van: Van, title: str = "Van Layout"):
         ax.add_patch(Rectangle((item.x, item.y), item.length, item.width, facecolor=color, edgecolor="black", alpha=0.8))
 
         ax.text(item.x + item.length / 2, item.y + item.width / 2, item.name, ha="center", va="center", fontsize=8)
+
+    # Plot centre of mass
+    x_offset, y_offset = balance_offset(items, van)
+    x_com = (van.length / 2) + (x_offset * van.length / 2)
+    y_com = (van.width / 2) + (y_offset * van.width / 2)
+    ax.plot(x_com, y_com, 'ro', markersize=4)
+    ax.text(x_com, y_com+100, "CoM", ha="center", va="center", fontsize=8)
 
     ax.set_xlim(-100, van.length + 100)
     ax.set_ylim(-100, van.width + 100)

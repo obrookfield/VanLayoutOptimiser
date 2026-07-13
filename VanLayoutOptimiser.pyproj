@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Include="main.py" />
     <Compile Include="van_layout\geometry.py" />
+    <Compile Include="van_layout\mass_balance.py" />
     <Compile Include="van_layout\placement.py" />
     <Compile Include="van_layout\visualiser.py" />
     <Compile Include="van_layout\__init__.py" />

@@ -14,3 +14,4 @@ This tool is designed to help anyone interested in van conversions to visualise 
 ## Versions
 * **v0.1:** Initial release with manual placement of items and basic layout visualisation.
 * **v0.2:** Introduced a simple algorithm, placing items by area into the first free spot.
+* **v0.3:** Implement a mass constraint, where the centre of mass of the layout is calculated and items are placed to keep the centre of mass as close to the centre of the van as possible.
