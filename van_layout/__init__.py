@@ -1,3 +1,3 @@
-from .geometry import Item, Van
+from .geometry import Item, Van, overlaps, in_bounds
 
-__all__ = ["Item", "Van"]
+__all__ = ["Item", "Van", "overlaps", "in_bounds"]

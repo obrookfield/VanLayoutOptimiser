@@ -1,3 +1,5 @@
+# Visualise the layout of items in the van.
+
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from .geometry import Item, Van
