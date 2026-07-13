@@ -21,7 +21,7 @@ van = Van(length=2572, width=1700)
 # Item defined by: (name, length, width)
 items = [
     Item(name="Bed", length=2000, width=1100),
-    #Item(name="Twin Bed", length=1910, width=970), # More accurate bed size, standard twin.
+    Item(name="Twin Bed", length=1910, width=970), # More accurate bed size, standard twin.
     Item(name="Kitchen Unit", length=500, width=500),
     Item(name="Wardrobe", length=500, width=500),
     Item(name="Fire Extinguisher", length=114, width=114)

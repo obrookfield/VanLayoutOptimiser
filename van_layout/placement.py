@@ -12,14 +12,16 @@ def sort_by_area_descending(items: list[Item]) -> list[Item]:
 
 def fits_at(item: Item, x: float, y: float, van: Van, placed_items: list[Item]) -> bool:
     # Check if the item can be placed at (x, y) without overlapping or going out of bounds.
-    item.x = x
-    item.y = y
-    if not in_bounds(item, van):
-        return False
-    for placed_item in placed_items:
-        if overlaps(item, placed_item):
-            return False
-    return True
+    # Temporarily place the item, rather than mutating the original item coordinates.
+    original_x, original_y = item.x, item.y
+    item.x, item.y = x, y
+
+    # Returns True if both in bounds and does not overlap
+    fits = in_bounds(item, van) and not any(overlaps(item, placed_item) for placed_item in placed_items)
+
+    item.x, item.y = original_x, original_y  # Restore original coordinates
+
+    return fits
 
 
 
