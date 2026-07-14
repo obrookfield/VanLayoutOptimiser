@@ -28,3 +28,24 @@ def objective(items: list[Item], van: Van) -> float:
     score -= out_of_bounds_penalty * count_out_of_bounds(items, van)
 
     return score
+
+
+def random_move(items: list[Item], van: Van, bump_size: float = 150) -> tuple[Item, float, float]:
+
+    # Pick a random item.
+    item = random.choice(items)
+    old_x, old_y = item.x, item.y
+    
+    max_x = van.length - item.length
+    max_y = van.width - item.width
+
+    if random.random() < 0.5:
+        # Teleport to a random position in the van.
+        item.x = random.uniform(0, max_x)
+        item.y = random.uniform(0, max_y)
+    else:
+        # Bump the item a small step from the current position.
+        item.x = min(max(0, old_x + random.uniform(-bump_size, bump_size)), max_x)
+        item.y = min(max(0, old_y + random.uniform(-bump_size, bump_size)), max_y)
+
+    return item, old_x, old_y
