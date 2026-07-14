@@ -31,6 +31,7 @@ def objective(items: list[Item], van: Van) -> float:
 
 
 def random_move(items: list[Item], van: Van, bump_size: float = 150) -> tuple[Item, float, float]:
+    # Picks a random item then moves it at random, either a teleport to a completely new location, or a small step away from the current.
 
     # Pick a random item.
     item = random.choice(items)
@@ -41,6 +42,7 @@ def random_move(items: list[Item], van: Van, bump_size: float = 150) -> tuple[It
 
     if random.random() < 0.5:
         # Teleport to a random position in the van.
+        # Useful for escaping local optima
         item.x = random.uniform(0, max_x)
         item.y = random.uniform(0, max_y)
     else:
@@ -49,3 +51,23 @@ def random_move(items: list[Item], van: Van, bump_size: float = 150) -> tuple[It
         item.y = min(max(0, old_y + random.uniform(-bump_size, bump_size)), max_y)
 
     return item, old_x, old_y
+
+
+def should_accept(old_score: float, new_score: float, temperature: float) -> bool:
+    # Logic to determine whether a move should be accepted.
+    # An improved move is always accepted, a worse move is accepted with a probability.
+    # This probability is based on the temperature during simulated annealing, where a higher temperature means a worse move is more likely to be accepted.
+
+    if new_score >= old_score:
+        # Better move, always accepted
+        return True
+
+    if temperature <= 0:
+        # Temperature is too small to accept a better move.
+        return False
+
+    # Calculate the criterion for a worse move to be accepted
+    delta = old_score - new_score # +ive means worse
+    probability = math.exp(-delta / temperature)
+
+    return random.random() < probability
