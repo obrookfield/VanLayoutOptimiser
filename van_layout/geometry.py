@@ -90,3 +90,10 @@ def validate_layout(items: list[Item], van: Van) -> list[str]:
                 problems.append(f"'{a.name}' overlaps with '{b.name}'")
 
     return problems
+
+
+def space_utilisation(items: list[Item], van: Van) -> float:
+    # Fraction of the van's floor space covered by placed items (0-1).
+    used = sum(item.area for item in items if item.placed) / van.area
+
+    return used
