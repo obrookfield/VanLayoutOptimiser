@@ -11,6 +11,9 @@ import random
 from van_layout.geometry import Item, Van, space_utilisation
 from van_layout.mass_balance import balance_score
 
+overlap_penalty = 5.0
+out_of_bounds_penalty = 0.5
+
 
 def objective(items: list[Item], van: Van) -> float:
     # Calculate the score for a single layout, where a higher score indicates a better layout
