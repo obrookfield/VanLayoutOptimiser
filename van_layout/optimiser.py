@@ -8,7 +8,7 @@ simulated annealing iterates through multiple potential layouts, accepting inval
 import math
 import random
 
-from van_layout.geometry import Item, Van, space_utilisation
+from van_layout.geometry import Item, Van, space_utilisation, total_overlap_area, count_out_of_bounds
 from van_layout.mass_balance import balance_score
 
 overlap_penalty = 5.0

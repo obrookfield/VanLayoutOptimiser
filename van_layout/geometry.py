@@ -97,3 +97,44 @@ def space_utilisation(items: list[Item], van: Van) -> float:
     used = sum(item.area for item in items if item.placed) / van.area
 
     return used
+
+
+def overlap_area(a: Item, b: Item) -> float:
+    # Area of overlap between two placed items, returns a value >= 0
+    ax_min, ay_min, ax_max, ay_max = a.bounds()
+    bx_min, by_min, bx_max, by_max = b.bounds()
+
+    x_overlap = max(0.0, min(ax_max, bx_max) - max(ax_min, bx_min))
+    y_overlap = max(0.0, min(ay_max, by_max) - max(ay_min, by_min))
+
+    return x_overlap * y_overlap
+
+
+def total_overlap_area(items: list[Item]) -> float:
+    placed_items = [item for item in items if item.placed]
+
+    total = 0.0
+    for i in range(len(placed_items)):
+        for j in range(i+1, len(placed_items)):
+            total += overlap_area(placed_items[i], placed_items[j])
+
+    return total
+
+
+def count_overlaps(items: list[Item]) -> int:
+    # Number of pairs of placed item that overlap each other.
+    placed_items = [item for item in items if item.placed]
+
+    count = 0
+    for i in range(len(placed_items)):
+        for i in range(len(placed_items)):
+            for j in range(i+1, len(placed_items)):
+                if overlaps(placed_items[i], placed_items[j]):
+                    count += 1
+
+    return count
+
+
+def count_out_of_bounds(items: list[Item], van: Van) -> int:
+    # Number of items that are outside the bounds of the van.
+    return sum(1 for item in items if item.placed and not in_bounds(item, van))
