@@ -71,3 +71,50 @@ def should_accept(old_score: float, new_score: float, temperature: float) -> boo
     probability = math.exp(-delta / temperature)
 
     return random.random() < probability
+
+
+def simulated_annealing(
+    items: list[Item],
+    van: Van,
+    iterations: int = 10000,
+    start_temp: float = 1.0,
+    end_temp: float = 0.001
+    ) -> tuple[list[Item], float, list[float]]:
+    pass
+    # Search for an optimal layout by repeatedly proposing random moves of items.
+    # Accept or reject moves based on a decreasing temperature.
+
+    # Returns (items, best_score, score_history), positioned at the best found layout.
+
+    current_score = objective(items, van)
+    best_score = current_score
+    best_positions = [(item.x, item.y) for item in items]
+    score_history = [current_score]
+
+    for i in range(iterations):
+        # Exponential cooling, dropping from start temperature to end temperature.
+        progress = i / iterations
+        temperature = start_temp * (end_temp / start_temp) ** progress
+
+        # Generate a random move and calculate score.
+        item, old_x, old_y = random_move(items, van)
+        new_score = objective(items, van)
+
+        if should_accept(current_score, new_score, temperature):
+            # Accept the new score if better than current score.
+            current_score = new_score
+
+            if new_score > best_score:
+                best_score = new_score
+                best_positions = [(item.x, item.y) for item in items]
+        else:
+            # Revert the move
+            item.x, item.y = old_x, old_y
+
+        score_history.append(current_score)
+
+    # Finally put items in the positions in the best layout found.
+    for item, (x, y) in zip(items, best_positions):
+        item.x, item.y = x, y
+
+    return items, best_score, score_history
