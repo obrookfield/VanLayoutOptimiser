@@ -11,7 +11,7 @@ Dimensions are in millimetres.
 '''
 
 import random
-random.seed(0)
+random.seed(1)
 
 from van_layout import Item, Van
 from van_layout.geometry import space_utilisation, validate_layout
@@ -42,6 +42,24 @@ items = [
     
     ]
 
+
+def report(label: str, layout: list[Item]) -> None:
+    # Check the layout is valid.
+    problems = validate_layout(layout, van)
+    print(f"--- {label} ---")
+    if problems:
+        print("Layout is invalid:")
+        for p in problems:
+            print(f"  - {p}")
+        return
+    
+    print("Layout is valid.")
+    x_offset, y_offset = balance_offset(layout, van)
+    print(f"Space Utilisation: {space_utilisation(layout, van):.1%}")
+    print(f"Mass balance offset: front/back={x_offset:+.2f}, side/side={y_offset:+.2f}")
+    print(f"Mass balance score: {balance_score(layout, van):.2f} (0.0 = perfectly balanced)")
+
+
 if __name__ == "__main__":
     # First Fit Placement
     # Place items in the van.
@@ -51,38 +69,13 @@ if __name__ == "__main__":
         for u in unplaced:
             print(f"  - {u.name} ({u.length} x {u.width})")
 
-    # Check the layout is valid.
-    problems = validate_layout(items, van)
-    if problems:
-        print("Layout is invalid:")
-        for p in problems:
-            print(f"  - {p}")
-    else:
-        print("Layout is valid.")
-
-        x_offset, y_offset = balance_offset(placed, van)
-        print(f"Space Utilisation: {space_utilisation(placed, van):.1%}")
-        print(f"Mass balance offset: front/back={x_offset:+.2f}, side/side={y_offset:+.2f}")
-        print(f"Mass balance score: {balance_score(placed, van):.2f} (0.0 = perfectly balanced)")
-
-    plot_layout(items, van, title="v0.2: Naive algorithm layout")
+    report("v0.2: First Fit Placement", placed)
+    plot_layout(items, van, title="v0.2: First Fit Placement")
 
     print()
 
     # Simulated Annealing Placement
     optimised, best_score, history = simulated_annealing(placed, van)
 
-    problems = validate_layout(optimised, van)
-    if problems:
-        print("Layout is invalid:")
-        for p in problems:
-            print(f"  - {p}")
-    else:
-        print("Layout is valid.")
-
-        x_offset, y_offset = balance_offset(optimised, van)
-        print(f"Space Utilisation: {space_utilisation(optimised, van):.1%}")
-        print(f"Mass balance offset: front/back={x_offset:+.2f}, side/side={y_offset:+.2f}")
-        print(f"Mass balance score: {balance_score(optimised, van):.2f} (0.0 = perfectly balanced)")
-
+    report("v0.4: Simulated Annealing", optimised)
     plot_layout(optimised, van, title="v0.4: Simulated Annealing")
