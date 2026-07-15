@@ -80,7 +80,7 @@ def simulated_annealing(
     start_temp: float = 1.0,
     end_temp: float = 0.001
     ) -> tuple[list[Item], float, list[float]]:
-    pass
+    
     # Search for an optimal layout by repeatedly proposing random moves of items.
     # Accept or reject moves based on a decreasing temperature.
 
