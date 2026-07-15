@@ -94,7 +94,7 @@ def simulated_annealing(
 
     for i in range(iterations):
         # Exponential cooling, dropping from start temperature to end temperature.
-        progress = i / iterations
+        progress = i / (iterations - 1)
         temperature = start_temp * (end_temp / start_temp) ** progress
 
         # Generate a random move and calculate score.
