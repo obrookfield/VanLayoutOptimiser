@@ -11,7 +11,7 @@ import random
 from van_layout.geometry import Item, Van, space_utilisation, total_overlap_area, count_out_of_bounds
 from van_layout.mass_balance import balance_score
 
-overlap_penalty = 5.0
+overlap_penalty = 8.0
 out_of_bounds_penalty = 0.5
 
 
@@ -30,7 +30,7 @@ def objective(items: list[Item], van: Van) -> float:
     return score
 
 
-def random_move(items: list[Item], van: Van, bump_size: float = 150) -> tuple[Item, float, float]:
+def random_move(items: list[Item], van: Van, progress: float, max_bump_size: float = 300) -> tuple[Item, float, float]:
     # Picks a random item then moves it at random, either a teleport to a completely new location, or a small step away from the current.
 
     # Pick a random item.
@@ -47,6 +47,7 @@ def random_move(items: list[Item], van: Van, bump_size: float = 150) -> tuple[It
         item.y = random.uniform(0, max_y)
     else:
         # Bump the item a small step from the current position.
+        bump_size = max_bump_size * (1 - progress)
         item.x = min(max(0, old_x + random.uniform(-bump_size, bump_size)), max_x)
         item.y = min(max(0, old_y + random.uniform(-bump_size, bump_size)), max_y)
 
@@ -97,7 +98,7 @@ def simulated_annealing(
         temperature = start_temp * (end_temp / start_temp) ** progress
 
         # Generate a random move and calculate score.
-        item, old_x, old_y = random_move(items, van)
+        item, old_x, old_y = random_move(items, van, progress)
         new_score = objective(items, van)
 
         if should_accept(current_score, new_score, temperature):
