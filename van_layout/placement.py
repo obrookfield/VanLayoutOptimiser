@@ -38,9 +38,16 @@ def fits_at(
 
 
 
-def place_items(items: list[Item], van: Van, step: float = 50) -> None:
+def place_items(
+        items: list[Item], 
+        van: Van, 
+        step: float = 50,
+        obstacles: list[Obstacle] | None = None
+    ) -> tuple[list[Item], list[Item]]:
+
     # Place items in the van using a simple greedy algorithm.
     # Items are placed in order of largest area first, starting from the bottom left corner, moving right and then up
+    obstacles = obstacles or []
     placed: list[Item] = []
     unplaced: list[Item] = []
 
@@ -51,7 +58,7 @@ def place_items(items: list[Item], van: Van, step: float = 50) -> None:
         while y + item.width <= van.width and not placed_successfully:
             x = 0.0
             while x + item.length <= van.length and not placed_successfully:
-                if fits_at(item, x, y, van, placed):
+                if fits_at(item, x, y, van, placed, obstacles):
                     item.x, item.y = x, y
                     placed.append(item)
                     placed_successfully = True
