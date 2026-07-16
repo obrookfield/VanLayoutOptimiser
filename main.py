@@ -50,9 +50,9 @@ items = [
     ]
 
 
-def report(label: str, layout: list[Item]) -> None:
+def report(label: str, layout: list[Item], obstructions= list[Obstacle]) -> None:
     # Check the layout is valid.
-    problems = validate_layout(layout, van)
+    problems = validate_layout(layout, van, obstructions)
     print(f"--- {label} ---")
     if problems:
         print("Layout is invalid:")
@@ -70,19 +70,19 @@ def report(label: str, layout: list[Item]) -> None:
 if __name__ == "__main__":
     # First Fit Placement
     # Place items in the van.
-    placed, unplaced = place_items(items, van)
+    placed, unplaced = place_items(items, van, obstacles)
     if unplaced:
         print("Could not place:")
         for u in unplaced:
             print(f"  - {u.name} ({u.length} x {u.width})")
 
-    report("v0.2: First Fit Placement", placed)
+    report("v0.2: First Fit Placement", placed, obstacles)
     plot_layout(items, van, title="v0.2: First Fit Placement")
 
     print()
 
     # Simulated Annealing Placement
-    optimised, best_score, history = simulated_annealing(placed, van)
+    optimised, best_score, history = simulated_annealing(placed, van, obstacles)
 
-    report("v0.4: Simulated Annealing", optimised)
-    plot_layout(optimised, van, title="v0.4: Simulated Annealing")
+    report("v0.4: Simulated Annealing", optimised, obstacles)
+    plot_layout(optimised, van, title="v0.5: Simulated Annealing w/ Obstructions")
