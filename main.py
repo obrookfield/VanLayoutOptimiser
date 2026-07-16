@@ -13,7 +13,7 @@ Dimensions are in millimetres.
 import random
 random.seed(1)
 
-from van_layout import Item, Van
+from van_layout import Item, Van, Obstacle
 from van_layout.geometry import space_utilisation, validate_layout
 from van_layout.mass_balance import balance_offset, balance_score
 from van_layout.optimiser import objective, simulated_annealing
@@ -22,6 +22,13 @@ from van_layout.visualiser import plot_layout
 
 # Dimensions - VW Transporter SWB (2014-)
 van = Van(length=2572, width=1700)
+
+# Obstructions, defined by: (name, length, width, x, y)
+obstacles = [
+    Obstacle(name="Wheel Arch (L)", length=300, width=180, x=2100, y=0),
+    Obstacle(name="Wheel Arch (R)", length=300, width=180, x=2100, y=1520),
+    Obstacle(name="Sliding Door Clearance", length=700, width=150, x=700, y=0)
+    ]
 
 # Item defined by: (name, length, width)
 items = [
