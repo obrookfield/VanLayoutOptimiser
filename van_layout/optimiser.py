@@ -85,7 +85,8 @@ def simulated_annealing(
     van: Van,
     iterations: int = 10000,
     start_temp: float = 1.0,
-    end_temp: float = 0.001
+    end_temp: float = 0.001,
+    obstacles: list[Obstacle] | None = None
     ) -> tuple[list[Item], float, list[float]]:
     
     # Search for an optimal layout by repeatedly proposing random moves of items.
@@ -93,7 +94,8 @@ def simulated_annealing(
 
     # Returns (items, best_score, score_history), positioned at the best found layout.
 
-    current_score = objective(items, van)
+    obstacles = obstacles or []
+    current_score = objective(items, van, obstacles)
     best_score = current_score
     best_positions = [(item.x, item.y) for item in items]
     score_history = [current_score]
@@ -105,7 +107,7 @@ def simulated_annealing(
 
         # Generate a random move and calculate score.
         item, old_x, old_y = random_move(items, van, progress)
-        new_score = objective(items, van)
+        new_score = objective(items, van, obstacles)
 
         if should_accept(current_score, new_score, temperature):
             # Accept the new score if better than current score.
