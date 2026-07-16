@@ -46,6 +46,21 @@ class Van:
         return self.width * self.length
 
 
+@dataclass
+class Obstacle:
+    # A fixed rectangular region within the van that must not have anything placed over it.
+    # E.g. rear wheel arches, clearance for stepping in through the side door.
+
+    name: str
+    x: float
+    y: float
+    length: float
+    width: float
+
+    def bounds(self) -> tuple[float, float, float, float]:
+        return (self.x, self.y, self.x + self.length, self.y + self.width)
+
+
 def in_bounds(item: Item, van: Van) -> bool:
     # Check if the item is within the bounds of the van.
     x_min, y_min, x_max, y_max = item.bounds()
