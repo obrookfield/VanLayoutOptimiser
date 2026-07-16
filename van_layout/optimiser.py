@@ -8,15 +8,18 @@ simulated annealing iterates through multiple potential layouts, accepting inval
 import math
 import random
 
-from van_layout.geometry import Item, Van, space_utilisation, total_overlap_area, count_out_of_bounds
+from van_layout.geometry import Item, Van, Obstacle, space_utilisation, total_overlap_area, total_obstacle_overlap_area, count_out_of_bounds
 from van_layout.mass_balance import balance_score
 
 overlap_penalty = 8.0
 out_of_bounds_penalty = 0.5
+obstacle_penalty = 8.0
 
 
-def objective(items: list[Item], van: Van) -> float:
+def objective(items: list[Item], van: Van, obstacles: list[Obstacle] | None = None) -> float:
     # Calculate the score for a single layout, where a higher score indicates a better layout
+
+    obstacles = obstacles or []
 
     # Positive: Area Utilised.
     score = space_utilisation(items, van) + balance_score(items, van)
@@ -26,6 +29,9 @@ def objective(items: list[Item], van: Van) -> float:
 
     # Negative: Items out of bounds.
     score -= out_of_bounds_penalty * count_out_of_bounds(items, van)
+
+    # Negative: Item overlaps with an obstacle.
+    score -= obstacle_penalty * (total_obstacle_overlap_area(items, obstacles) / van.area)
 
     return score
 
