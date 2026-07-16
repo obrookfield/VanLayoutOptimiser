@@ -143,6 +143,17 @@ def total_overlap_area(items: list[Item]) -> float:
     return total
 
 
+def total_obstacle_overlap_area(items: list[Item], obstacles: list[Obstacle]) -> float:
+    placed_items = [item for item in items if item.placed]
+
+    total = 0.0
+    for item in placed_items:
+        for obstacle in obstacles:
+            total += overlap_area(item, obstacle)
+
+    return total
+
+
 def count_overlaps(items: list[Item]) -> int:
     # Number of pairs of placed item that overlap each other.
     placed_items = [item for item in items if item.placed]
