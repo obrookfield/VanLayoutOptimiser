@@ -81,12 +81,12 @@ def should_accept(old_score: float, new_score: float, temperature: float) -> boo
 
 
 def simulated_annealing(
-    items: list[Item],
-    van: Van,
-    iterations: int = 10000,
-    start_temp: float = 1.0,
-    end_temp: float = 0.001,
-    obstacles: list[Obstacle] | None = None
+        items: list[Item],
+        van: Van,
+        iterations: int = 10000,
+        start_temp: float = 1.0,
+        end_temp: float = 0.001,
+        obstacles: list[Obstacle] | None = None
     ) -> tuple[list[Item], float, list[float]]:
     
     # Search for an optimal layout by repeatedly proposing random moves of items.

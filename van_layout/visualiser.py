@@ -2,15 +2,26 @@
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
-from .geometry import Item, Van
+from .geometry import Item, Van, Obstacle
 from .mass_balance import balance_offset
 
-def plot_layout(items: list[Item], van: Van, title: str = "Van Layout"):
+def plot_layout(
+        items: list[Item], 
+        van: Van, 
+        title: str = "Van Layout", 
+        obstacles: list[Obstacle] | None = None
+    ):
+
     # Draw the outline of the van and every placed item with labels.
+    obstacles = obstacles or []
     fig, ax = plt.subplots(figsize=(van.length / 500, van.width / 500))
 
     # Van Outline
     ax.add_patch(Rectangle((0,0), van.length, van.width, fill=None, edgecolor="black", linewidth=2))
+
+    # Obstructions
+    for obstacle in obstacles:
+        ax.add_patch(Rectangle(obstacle.x, obstacle.y), obstacle.length, obstacle.width, facecolor="none", edgecolor="dimgray", hatch="//", alpha=0.8)
 
     colors = plt.cm.tab20.colors  # Use a colourmap for item colours
     for i, item in enumerate(items):
