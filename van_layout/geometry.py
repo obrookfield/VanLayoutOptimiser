@@ -52,10 +52,10 @@ class Obstacle:
     # E.g. rear wheel arches, clearance for stepping in through the side door.
 
     name: str
-    x: float
-    y: float
     length: float
     width: float
+    x: float
+    y: float
 
     def bounds(self) -> tuple[float, float, float, float]:
         return (self.x, self.y, self.x + self.length, self.y + self.width)
