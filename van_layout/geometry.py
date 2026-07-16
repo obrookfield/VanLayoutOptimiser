@@ -79,10 +79,11 @@ def overlaps(a: Item, b: Item) -> bool:
     return True
 
 
-def validate_layout(items: list[Item], van: Van) -> list[str]:
+def validate_layout(items: list[Item], van: Van, obstacles: list[Obstacle]) -> list[str]:
     # Check the placed layout for problems.
     # Returns a list of problem descriptions.
 
+    obstacles = obstacles or [] # Include the obstacle regions.
     problems = []
 
     # Check for items that have not been placed.
@@ -96,6 +97,12 @@ def validate_layout(items: list[Item], van: Van) -> list[str]:
     for item in placed_items:
         if not in_bounds(item, van):
             problems.append(f"'{item.name}' is out of bounds.")
+
+    # Check for items overlapping the obstacle regions.
+    for item in placed_items:
+        for obstacle in obstacles:
+            if overlaps(item, obstacle):
+                problems.append(f"'{item.name}' overlaps with '{obstacle.name}'")
 
     # Check for overlapping items.
     for i in range(len(placed_items)):
